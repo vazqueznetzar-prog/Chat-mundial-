@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#100d18">
+<title>Chat Mundial</title>
+<style>
+:root{--bg:#100d18;--panel:#1a1525;--panel2:#241b33;--text:#fffaff;--muted:#bdb4ca;--purple:#9b5cff;--yellow:#ffd84d;--line:#3b304c}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+button,input,textarea{font:inherit}button{cursor:pointer}.app{max-width:760px;margin:auto;min-height:100dvh;padding-bottom:84px}
+header{position:sticky;top:0;z-index:5;background:#100d18ed;backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:14px 16px;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:10px}.logo{height:42px;width:42px;border-radius:14px;background:linear-gradient(135deg,var(--purple),#5425a6);display:grid;place-items:center;font-size:23px;box-shadow:0 6px 22px #9b5cff38}.brand h1{font-size:19px;line-height:1.05;margin:0}.brand small{display:block;color:var(--yellow);font-size:11px;letter-spacing:1.5px;margin-top:4px}
+.pill{border:1px solid var(--line);border-radius:999px;padding:7px 10px;color:var(--muted);font-size:12px;background:var(--panel)}
+main{padding:16px}.welcome{background:linear-gradient(135deg,#30204a,#171222 75%);border:1px solid #493361;border-radius:22px;padding:18px;margin-bottom:16px;overflow:hidden;position:relative}.welcome:after{content:"🌎";position:absolute;right:10px;top:16px;font-size:58px;opacity:.2}.welcome h2{font-size:24px;margin:0 0 7px;max-width:75%}.welcome p{color:var(--muted);font-size:14px;margin:0 0 14px;max-width:78%;line-height:1.45}.primary{border:0;border-radius:12px;padding:11px 15px;background:var(--yellow);color:#211800;font-weight:800}.secondary{border:1px solid var(--line);border-radius:12px;padding:10px 13px;background:var(--panel2);color:var(--text);font-weight:650}
+.section-head{display:flex;justify-content:space-between;align-items:center;margin:19px 0 10px}.section-head h3{font-size:17px;margin:0}.muted{color:var(--muted);font-size:12px}
+.chips{display:flex;gap:8px;overflow:auto;padding-bottom:5px}.chip{white-space:nowrap;border:1px solid var(--line);border-radius:999px;padding:8px 12px;background:var(--panel);color:var(--muted);font-size:13px}.chip.active{background:#392456;border-color:var(--purple);color:white}
+.post{border:1px solid var(--line);background:var(--panel);border-radius:19px;overflow:hidden;margin:14px 0}.post-top{display:flex;align-items:center;gap:10px;padding:12px 13px}.avatar{height:38px;width:38px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#8f4bff,#ef7fb6);font-weight:800}.user{font-weight:750;font-size:14px}.country{color:var(--muted);font-size:12px;margin-top:2px}.dots{margin-left:auto;color:var(--muted);letter-spacing:2px}
+.video{aspect-ratio:9/12;max-height:540px;background:radial-gradient(ellipse at 50% 35%,#54347d,#21172f 55%,#100d18);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}.video .emoji{font-size:90px;filter:drop-shadow(0 10px 20px #0006)}.video .play{position:absolute;border:1px solid #ffffff55;background:#171222aa;border-radius:50%;height:58px;width:58px;display:grid;place-items:center;font-size:25px}.video .caption{position:absolute;bottom:0;left:0;right:0;padding:50px 15px 16px;background:linear-gradient(transparent,#000c);font-size:17px;font-weight:800}.video video{width:100%;height:100%;object-fit:cover}.actions{display:flex;gap:15px;align-items:center;padding:12px 13px}.action{border:0;background:none;color:var(--text);padding:0;display:flex;gap:6px;align-items:center;font-weight:700}.action.liked{color:#ff6f9f}.save{margin-left:auto}.post-caption{padding:0 13px 14px;font-size:14px;line-height:1.45}.post-caption b{margin-right:5px}
+.empty{border:1px dashed #554568;border-radius:18px;padding:24px 16px;text-align:center;color:var(--muted)}.empty .big{font-size:38px}.empty strong{display:block;color:var(--text);margin:8px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px;margin:14px 0}.panel h2{font-size:20px;margin:0 0 8px}.panel p{color:var(--muted);font-size:14px;line-height:1.5}.field{display:block;width:100%;margin:8px 0 12px;border:1px solid var(--line);border-radius:12px;padding:12px;background:#110e19;color:white}.file-label{display:block;border:1px dashed #6a4d8b;border-radius:14px;padding:18px;text-align:center;color:#e6d6ff;margin:12px 0}.file-label input{max-width:100%;margin-top:10px}.hidden{display:none!important}
+nav{position:fixed;bottom:0;left:0;right:0;z-index:8;background:#171222f2;backdrop-filter:blur(16px);border-top:1px solid var(--line);display:flex;justify-content:center;padding:8px max(8px,env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom));gap:0}.navbtn{flex:1;max-width:150px;border:0;background:none;color:var(--muted);font-size:11px;padding:5px 2px;display:flex;flex-direction:column;align-items:center;gap:3px}.navbtn span{font-size:21px}.navbtn.active{color:var(--yellow)}
+.toast{position:fixed;bottom:88px;left:50%;transform:translateX(-50%);background:#fff;color:#21172f;padding:10px 14px;border-radius:12px;font-weight:700;box-shadow:0 6px 25px #0005;z-index:20;max-width:90%;text-align:center}
+@media(min-width:650px){main{padding:22px}.video{aspect-ratio:16/10}.welcome h2{font-size:30px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header><div class="brand"><div class="logo">🌐</div><div><h1>Chat Mundial</h1><small>EL MUNDO EN UN VIDEO</small></div></div><span class="pill">🌍 Global</span></header>
+<main>
+<section id="homeView">
+<div class="welcome"><h2>El mundo tiene algo que mostrarte.</h2><p>Descubre videos, comparte tus momentos y conecta con personas de todo el planeta.</p><button class="primary" onclick="showView('upload')">＋ Publicar video</button></div>
+<div class="section-head"><h3>🔥 Tendencias</h3><span class="muted">Explora el mundo</span></div>
+<div class="chips"><button class="chip active" onclick="filterChip(this,'Todos')">Para ti</button><button class="chip" onclick="filterChip(this,'Humor')">😂 Humor</button><button class="chip" onclick="filterChip(this,'Música')">🎵 Música</button><button class="chip" onclick="filterChip(this,'Viajes')">✈️ Viajes</button><button class="chip" onclick="filterChip(this,'Gaming')">🎮 Gaming</button></div>
+<div id="feed">
+<article class="post" data-category="Viajes"><div class="post-top"><div class="avatar">L</div><div><div class="user">LunaExplora</div><div class="country">🇲🇽 México · hace 2 h</div></div><div class="dots">•••</div></div><div class="video"><div class="emoji">🏞️</div><div class="play">▶</div><div class="caption">Lugares que parecen de otro planeta ✨</div></div><div class="actions"><button class="action" onclick="like(this)">♡ <span>1.2 mil</span></button><button class="action" onclick="commentDemo()">💬 <span>86</span></button><button class="action" onclick="shareDemo()">↗ Compartir</button><button class="action save" onclick="saveDemo(this)">🔖</button></div><div class="post-caption"><b>LunaExplora</b> La naturaleza nunca deja de sorprendernos 🌎 #Viajes #ParaTi</div></article>
+<article class="post" data-category="Humor"><div class="post-top"><div class="avatar" style="background:linear-gradient(135deg,#ffb347,#ff5d73)">M</div><div><div class="user">MemePlaneta</div><div class="country">🇨🇴 Colombia · hace 4 h</div></div><div class="dots">•••</div></div><div class="video" style="background:radial-gradient(ellipse at 50% 35%,#6b3a52,#21172f 60%,#100d18)"><div class="emoji">😂</div><div class="play">▶</div><div class="caption">Cuando dices “cinco minutos más” 😅</div></div><div class="actions"><button class="action" onclick="like(this)">♡ <span>842</span></button><button class="action" onclick="commentDemo()">💬 <span>42</span></button><button class="action" onclick="shareDemo()">↗ Compartir</button><button class="action save" onclick="saveDemo(this)">🔖</button></div><div class="post-caption"><b>MemePlaneta</b> Todos hemos sido esa persona 😂 #Humor</div></article>
+</div>
+<div id="noPosts" class="empty hidden"><div class="big">🎬</div><strong>Todavía no hay videos en esta categoría</strong>Elige otra categoría o publica el primer video.</div>
+</section>
+<section id="uploadView" class="hidden">
+<div class="panel"><h2>🎬 Publica tu video</h2><p>En esta versión inicial, el video se muestra solo en este navegador. Para compartirlo con todos, después conectaremos una base de datos y almacenamiento en línea.</p>
+<label class="file-label">Selecciona un video desde tu teléfono<br><input id="videoFile" type="file" accept="video/*"></label>
+<video id="preview" class="hidden" controls playsinline style="width:100%;max-height:350px;border-radius:14px;background:#000"></video>
+<label class="muted" for="captionInput">Descripción del video</label><textarea id="captionInput" class="field" rows="3" maxlength="220" placeholder="¿Qué quieres compartir con el mundo?"></textarea>
+<label class="muted" for="categoryInput">Categoría</label><select id="categoryInput" class="field"><option>Humor</option><option>Música</option><option>Viajes</option><option>Gaming</option><option>Otro</option></select>
+<button class="primary" style="width:100%" onclick="publishVideo()">Publicar en esta vista previa</button><p class="muted">Consejo: publica solo videos tuyos o que tengas permiso para compartir.</p></div>
+</section>
+<section id="chatView" class="hidden">
+<div class="panel"><h2>💬 Chat Mundial</h2><p>Conecta con personas de todo el planeta. El chat real necesita cuentas de usuario y un servicio seguro en línea; aquí te mostramos el diseño inicial.</p>
+<div class="empty"><div class="big">🌐</div><strong>Próximamente: conversaciones globales</strong>Perfiles, mensajes privados, bloqueo y reportes de usuarios.</div></div>
+</section>
+<section id="profileView" class="hidden">
+<div class="panel" style="text-align:center"><div class="avatar" style="height:76px;width:76px;font-size:28px;margin:8px auto">🌎</div><h2>Tu perfil</h2><p>Tu espacio en Chat Mundial</p><input id="nameInput" class="field" placeholder="Escribe tu nombre de usuario" maxlength="24"><button class="primary" onclick="saveName()">Guardar nombre</button><div class="section-head"><h3>Tu actividad</h3></div><p id="profileStats">0 videos publicados · 0 me gusta</p></div>
+<div class="panel"><h2>🛡️ Comunidad segura</h2><p>Respeta a los demás. No compartas datos personales sensibles. En la versión completa añadiremos reportes, bloqueo y reglas de comunidad.</p></div>
+</section>
+</main>
+<nav>
+<button class="navbtn active" data-view="home" onclick="showView('home')"><span>⌂</span>Inicio</button>
+<button class="navbtn" data-view="upload" onclick="showView('upload')"><span>⊕</span>Publicar</button>
+<button class="navbtn" data-view="chat" onclick="showView('chat')"><span>☏</span>Chat</button>
+<button class="navbtn" data-view="profile" onclick="showView('profile')"><span>◎</span>Perfil</button>
+</nav>
+</div>
+<script>
+let selectedVideoUrl=null, publishedCount=0, likesCount=0, userName='';
+function showView(view){['home','upload','chat','profile'].forEach(v=>document.getElementById(v+'View').classList.toggle('hidden',v!==view));document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.view===view));window.scrollTo({top:0,behavior:'smooth'});}
+function toast(msg){const old=document.querySelector('.toast');if(old)old.remove();const el=document.createElement('div');el.className='toast';el.textContent=msg;document.body.appendChild(el);setTimeout(()=>el.remove(),2400);}
+function like(btn){const liked=btn.classList.toggle('liked');const span=btn.querySelector('span');let n=parseInt((span.textContent||'0').replace(/[^\d]/g,''))||0;if(liked){btn.firstChild.textContent='♥ ';span.textContent=(n+1).toLocaleString('es-MX');likesCount++;}else{btn.firstChild.textContent='♡ ';span.textContent=Math.max(0,n-1).toLocaleString('es-MX');likesCount=Math.max(0,likesCount-1);}updateStats();}
+function commentDemo(){toast('Los comentarios estarán disponibles al conectar la comunidad.');}
+function shareDemo(){if(navigator.share){navigator.share({title:'Chat Mundial',text:'Mira esta publicación de Chat Mundial'}).catch(()=>{});}else if(navigator.clipboard){navigator.clipboard.writeText(location.href).then(()=>toast('Enlace copiado'));}else toast('Comparte Chat Mundial con tus amigos.');}
+function saveDemo(btn){btn.textContent=btn.textContent.includes('✓')?'🔖':'✓ Guardado';toast(btn.textContent.includes('Guardado')?'Guardado en esta vista previa':'Quitado de guardados');}
+function filterChip(btn,category){document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));btn.classList.add('active');let visible=0;document.querySelectorAll('#feed .post').forEach(p=>{let show=category==='Todos'||p.dataset.category===category;p.classList.toggle('hidden',!show);if(show)visible++;});document.getElementById('noPosts').classList.toggle('hidden',visible>0);}
+document.getElementById('videoFile').addEventListener('change',e=>{const file=e.target.files[0];if(!file)return;if(!file.type.startsWith('video/')){toast('Selecciona un archivo de video.');return;}if(selectedVideoUrl)URL.revokeObjectURL(selectedVideoUrl);selectedVideoUrl=URL.createObjectURL(file);const p=document.getElementById('preview');p.src=selectedVideoUrl;p.classList.remove('hidden');});
+function publishVideo(){const file=document.getElementById('videoFile').files[0];if(!file){toast('Primero selecciona un video.');return;}const caption=document.getElementById('captionInput').value.trim()||'Mi primer video en Chat Mundial 🌎';const category=document.getElementById('categoryInput').value;const post=document.createElement('article');post.className='post';post.dataset.category=category;const videoUrl=selectedVideoUrl;const safeCaption=caption.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));post.innerHTML=`<div class="post-top"><div class="avatar">T</div><div><div class="user">${(userName||'Tu perfil').replace(/[&<>"]/g,'')}</div><div class="country">🌍 Comunidad · ahora</div></div><div class="dots">•••</div></div><div class="video" style="aspect-ratio:9/12;background:#000;padding:0"><video controls playsinline src="${videoUrl}" style="width:100%;height:100%;object-fit:contain"></video></div><div class="actions"><button class="action" onclick="like(this)">♡ <span>0</span></button><button class="action" onclick="commentDemo()">💬 <span>0</span></button><button class="action" onclick="shareDemo()">↗ Compartir</button><button class="action save" onclick="saveDemo(this)">🔖</button></div><div class="post-caption"><b>${(userName||'Tu perfil').replace(/[&<>"]/g,'')}</b> ${safeCaption} <span class="muted">#${category}</span></div>`;document.getElementById('feed').prepend(post);publishedCount++;updateStats();document.getElementById('videoFile').value='';document.getElementById('preview').classList.add('hidden');document.getElementById('captionInput').value='';selectedVideoUrl=null;showView('home');toast('¡Publicado en esta vista previa!');}
+function saveName(){userName=document.getElementById('nameInput').value.trim().slice(0,24);toast(userName?'Nombre guardado en esta sesión':'Escribe un nombre primero.');updateStats();}
+function updateStats(){document.getElementById('profileStats').textContent=publishedCount+' videos publicados · '+likesCount+' me gusta';}
+</script>
+</body>
+</html>
